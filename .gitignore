@@ -45,3 +45,8 @@ Thumbs.db
 # VSCode #
 ##########
 .vscode
+
+
+# Packaging #
+#############
+*.egg-info
