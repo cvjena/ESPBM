@@ -41,8 +41,6 @@ def define_prototype(
         # this how the prototype is defined in the paper
         apex_location = 0.4
     apex_location = int(window_size * apex_location)
-    print(apex_location, type(apex_location))
-
     onset_x  = apex_location - 3 * sig1
     offset_x = apex_location + 3 * sig2
     
@@ -53,15 +51,8 @@ def define_prototype(
     y1 = -prominance * gaussian(window_size*2, std=sig1) + baseline
     y2 = -prominance * gaussian(window_size*2, std=sig2) + baseline
     y = np.append(y1[:window_size], y2[window_size:])
-    
-    print(y1.shape, y2.shape)
-    
     if noise:
-        y1 = y1 + _noise_fct(0.05, window_size)
-        y2 = y2 + _noise_fct(0.05, window_size) 
-    
-    if noise:
-        y = y + _noise_fct(0.05, window_size)
+        y = y + _noise_fct(0.02, window_size)
     
     y = y[window_size - apex_location: 2*window_size - apex_location]
     if return_params:
