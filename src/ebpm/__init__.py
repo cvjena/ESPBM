@@ -1,4 +1,4 @@
-__all__ = ["plot", "unsupervised", "match"]
+__all__ = ["plot", "unsupervised", "match", "manual"]
 
 # set env variable to suppress the gpu usage!
 # it is slower but it works on all systemsi
@@ -6,4 +6,4 @@ __all__ = ["plot", "unsupervised", "match"]
 import os
 os.environ['NUMBA_DISABLE_CUDA'] = '1'
 
-from ebpm import plot, unsupervised, match
+from ebpm import plot, unsupervised, match, manual

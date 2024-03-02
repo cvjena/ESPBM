@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import figure
 
+from .curlyBrace import curlyBrace
 
 def ear_time_series(
     ear_r: np.ndarray,
@@ -124,4 +125,63 @@ def matches(
         axs[0].axvspan(match[0], match[1], color='green', alpha=0.3)
     for match in matches_r:
         axs[1].axvspan(match[0], match[1], color='green', alpha=0.3)
+    return fig
+
+    
+def manual_prototype(
+    prototype: np.ndarray, 
+    xmin: int | None = None, 
+    xmax: int | None = None,
+    params: tuple[float, float, float, float, int] | None = None,
+) -> figure.Figure:
+    """
+    Plot the given prototype pattern.
+
+    Args:
+        prototype (np.ndarray): The prototype pattern to plot.
+        xmin (int | None, optional): Minimum x-axis value. Defaults to None.
+        xmax (int | None, optional): Maximum x-axis value. Defaults to None.
+
+    Returns:
+        figure.Figure: The matplotlib figure object.
+    """
+    fig, ax = plt.subplots(nrows=1, ncols=1, figsize=(10, 7))
+    ax.plot(prototype)
+    ax.set_xlabel('Frame [#]', fontsize="18")
+    ax.set_ylabel('EAR Value', fontsize="18")
+    ax.set_ylim([0, 0.5])
+    ax.set_xlim([xmin, xmax])
+    fig.suptitle("Manual Prototype Pattern", fontsize="20")
+    
+    if params is None:
+        return fig
+    
+    sig1, sig2, bs, prominance, apex_location = params
+
+    # draw a point for onset and offset
+    onset_x  = apex_location - int(sig1 * 3)
+    offset_x = apex_location + int(sig2 * 3)
+    apex_x   = apex_location
+    apex_y   = prototype[apex_x] 
+    
+    ax.plot(onset_x,  prototype[onset_x],  'ro')
+    ax.plot(offset_x, prototype[offset_x], 'ro')
+    ax.plot(apex_x,   prototype[apex_x],   'ro')
+    
+    # write onset, apex, and offset
+    # slight lower left of the point
+    ax.text(onset_x-5,  prototype[onset_x]-0.02,  'Onset', fontsize=12, color='r')
+    ax.text(offset_x, prototype[offset_x]-0.02, 'Offset', fontsize=12, color='r')
+    ax.text(apex_x,   apex_y-0.02,   'Apex', fontsize=12, color='r')
+    
+    # write the text prominance to the vertical line
+    ax.text(apex_x-3, apex_y+prominance/3, 'Prominance', fontsize=12, color='r', rotation=90)
+    
+    # draw lines to describe the prototype
+    ax.vlines(x=apex_x, ymin=prototype[apex_location], ymax=bs, color='r', linestyle='--')
+    ax.hlines(y=bs, xmin=onset_x, xmax=offset_x, color='r', linestyle='--')
+    
+    # draw curly braces
+    curlyBrace(fig, ax, (onset_x, bs), (apex_x, bs), 0.03,  bool_auto=True, c="r",  str_text="3 * σ1")
+    curlyBrace(fig, ax, (apex_x, bs), (offset_x, bs),0.03, bool_auto=True, c="r", str_text="3 * σ2")
     return fig
