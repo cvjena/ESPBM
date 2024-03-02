@@ -12,11 +12,11 @@ def motif_extraction(ear_ts: np.ndarray, m=100, max_matches=10):
     motif_distances, motif_indices = stumpy.motifs(ear_ts, mp[:, 0], max_matches=max_matches)
     return motif_distances, motif_indices
 
-def learn_prototype(ear_ts: np.ndarray, m=100, max_matches=10):
-    """Return motif no.1 as prototype."""
+def learn_prototypes(ear_ts: np.ndarray, m=100, max_matches=10):
+    """Return top motifs."""
     _, motif_indices = motif_extraction(ear_ts, m, max_matches)
-    motif_01 = ear_ts[motif_indices[0][0]+m//2:motif_indices[0][0]+m//2+m]
-    return motif_01
+    motifs = np.array([ear_ts[idx:idx+m] for idx in (motif_indices[0] + m // 2)])
+    return motifs
 
 # manual definition
 def combined_gaussian(sig1: float, sig2: float, avg: float, prom: float, m=100, mu=40, noise=None):
