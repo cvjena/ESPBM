@@ -3,21 +3,24 @@ __all__ = ["find_prototype", "match_found_intervals"]
 import numpy as np
 import stumpy
 
-def find_prototype(ear_ts: np.ndarray, prototype: np.ndarray, th=3.0):
+def find_prototype(
+    ear_ts: np.ndarray, 
+    prototype: np.ndarray, 
+    max_prototype_distance: float=3.0):
     """
     Find occurrences of a prototype pattern within a time series.
 
     Parameters:
     ear_ts (np.ndarray): The time series to search for occurrences of the prototype pattern.
     prototype (np.ndarray): The prototype pattern to search for within the time series.
-    th (float, optional): The threshold value used to determine matches. Defaults to 3.0.
+    max_prototype_distance (float, optional): The threshold value used to determine matches. Defaults to 3.0.
 
     Returns:
     list: A list of intervals where the prototype pattern is found in the time series.
           Each interval is represented as [from, to, distance_to_prototype].
     """
     def threshold(D):
-        return np.nanmax([np.nanmean(D) - th * np.std(D), np.nanmin(D)])
+        return np.nanmax([np.nanmean(D) - max_prototype_distance * np.std(D), np.nanmin(D)])
     
     matches = stumpy.match(prototype, ear_ts, max_distance=threshold)
     # sort the matches by index to get the original order
