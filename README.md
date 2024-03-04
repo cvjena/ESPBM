@@ -1,4 +1,4 @@
-# EBPM - Eye Blink Prototype Matching
+# EBPM - Eye Blinking Prototype Matching
 This work presents a novel method for detecting eye blinking by establishing *eye state prototypes* to match blink patterns within eye aspect ratio (EAR) time series. In contrast to traditional methods, which mainly focus on the binary ON/OFF of blinkings, our method takes care of important diagnostic details such as blink speed, duration as well as inter-eye synchronicity. 
 
 In an unsupervised manner, we learned prototypes from the existing blink patterns and established manually defined prototypes. Our research shows that both *unsupervised learned* and *manually defined prototypes* can reliably detect blink intervals and have comparable results, which offers potential diagnostic tools for identifying muscular or neural disorders. 
