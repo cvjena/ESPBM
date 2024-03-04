@@ -249,7 +249,6 @@ def plot_fpm(T: np.ndarray, match_indices: np.ndarray, m: int, th: float, xmin=0
 
     for i, match_idx in enumerate(match_indices):
         ax.axvspan(match_indices[i], match_indices[i] + m, 0, 1, facecolor="lightgrey")
-        #ax.text(match_indices[i], 0, str(i+1), color="black", fontsize=20)
 
     ax.set(xlim=[xmin, xmax])
     ax.minorticks_on()
@@ -274,11 +273,9 @@ def plot_fpm2(ear_r: np.ndarray, ear_l: np.ndarray, match_indices_r: np.ndarray,
 
     for i, match_idx in enumerate(match_indices_r):
         axs[0].axvspan(match_idx, match_idx + m, 0, 1, facecolor="lightgrey")
-        #axs[0].text(match_idx, 0.3, str(i+1), color="black", fontsize=20)
 
     for i, match_idx in enumerate(match_indices_l):
         axs[1].axvspan(match_idx, match_idx + m, 0, 1, facecolor="lightgrey")
-        #axs[1].text(match_indices_l[i], 0, str(i+1), color="black", fontsize=20)
 
     axs[0].set(xlim=[xmin, xmax])
     axs[0].minorticks_on()
@@ -316,5 +313,4 @@ def plot_prom_hist(proms, eye="right", rel_freq=True, xmin=0, xmax=0.5, ymin=0, 
         ax.set_ylabel("Frequency")
     
     if save_path != None:
-        # plt.savefig(f"./outputs/histogram/histogram_m{m}_th{th}_bin{n_bins}_r.png")
         plt.savefig(save_path)
