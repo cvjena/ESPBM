@@ -1,17 +1,29 @@
 # EBPM - Eye Blinking Prototype Matching
-This work presents a novel method for detecting eye blinking by establishing *eye state prototypes* to match blink patterns within eye aspect ratio (EAR) time series. In contrast to traditional methods, which mainly focus on the binary ON/OFF of blinkings, our method takes care of important diagnostic details such as blink speed, duration as well as inter-eye synchronicity. 
 
-In an unsupervised manner, we learned prototypes from the existing blink patterns and established manually defined prototypes. Our research shows that both *unsupervised learned* and *manually defined prototypes* can reliably detect blink intervals and have comparable results, which offers potential diagnostic tools for identifying muscular or neural disorders. 
+![Prototype Learning and Manual Definition](assets/prototypes.png)
 
-Under the principle of the "minimal working prototype", our aim is to establish the eye blink prototype with a minimum amount of work, enabling medical professionals without computer expertise to easily create their own prototypes to match specific patterns. This repository presents the source code of our approach and provides a demonstration in sample experiments. 
+This work presents a novel method for detecting eye blinking by establishing *eye state prototypes* to match blink patterns within the eye aspect ratio (EAR) time series.
+In contrast to traditional methods, which mainly focus on the binary ON/OFF of blinks, our method takes care of critical diagnostic details such as blink speed, duration, and inter-eye synchronicity.
 
-## Get Started
-1. clone the repository
+In an unsupervised manner, we learned prototypes from the existing blink patterns and established manually defined prototypes.
+Our research shows that both *unsupervised learned* and *manually defined prototypes* can reliably detect blink intervals and have comparable results, which offers potential diagnostic tools for identifying muscular or neural disorders.
+
+Under the "minimal working prototype" principle, we aim to establish the eye blink prototype with minimal work, enabling medical professionals without computer expertise to quickly create prototypes to match specific patterns.
+This repository presents the source code of our approach and provides a demonstration of sample experiments.
+
+## Getting Started
+
+### Locally
+
+1. Clone the repository
+
 ```bash
-git clone
+git clone <link>
 ```
-1. `cd` to EBPM
-2. setup
+
+2. `cd` to EBPM
+3. Create a new conda environment and install the dependencies:
+
 ```bash
 conda create -n ebpm python=3.10 -y
 conda activate ebpm
@@ -20,16 +32,45 @@ pip install jupyter
 pip install -e .
 ```
 
+## Via Pip
+
+```bash
+Upcoming
+```
+
 ## Usage
-- Data
-- Prototypes
-- Experiments
+
+We provide some example time series and prototypes to demonstrate the usage of our method in the `sample_experiments` folder.
+Our code is designed to be modular and flexible, so you can quickly adapt it to your data and prototypes.
+We demonstrate the usage of our method in the following steps:
+
+- Data loading
+- Prototypes learning or manual definition
+- Extraction
+- Inter-eye synchronicity
 
 ## Citation
 
+```bibtex
+Upcoming
+```
+
 ## License
-Licensed under [MIT](Licensed.txt).
-## Aknowledgements
-TODO: stumpy, mediapipe, jefapato, curly brace...more?
+
+Licensed under [MIT](License.txt).
+
+## Acknowledgments
+
+Our project is and was only possible with the help of many existing projects and their maintainers and contributors.
+We would like to thank the following projects and their maintainers for their work:
+
+- [Stumpy](https://github.com/TDAmeritrade/stumpy) for the unsupervised learning of prototypes and fast pattern-matching
+- [JeFaPaTo](https://github.com/cvjena/JeFaPaTo) the extraction of the EAR time series
+- [CurlyBrace](https://github.com/iruletheworld/matplotlib-curly-brace) for the nice visualizations of curly braces :)
+
 ## Contact
-For any queries, please reach out to Yuxuan Xie at [yuxuan.xie@uni-jena.de](yuxuan.xie@uni-jena.de) or Tim Büchner at [tim.buechner@uni-jena.de](tim.buechner@uni-jena.de).
+
+For any queries, requests, or problems, please reach out to
+
+- [Yuxuan Xie](yuxuan.xie@uni-jena.de)
+- [Tim Büchner](tim.buechner@uni-jena.de)
