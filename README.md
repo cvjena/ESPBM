@@ -1,4 +1,4 @@
-# EBPM - Eye Blinking Prototype Matching
+# ESBPM - Eye State Blinking Prototype Matching
 
 ![Prototype Learning and Manual Definition](assets/prototypes.png)
 
