@@ -6,4 +6,4 @@ __all__ = ["plot", "unsupervised", "match", "manual"]
 import os
 os.environ['NUMBA_DISABLE_CUDA'] = '1'
 
-from ebpm import plot, unsupervised, match, manual
+from espbm import plot, unsupervised, match, manual

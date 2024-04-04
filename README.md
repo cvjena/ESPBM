@@ -21,12 +21,12 @@ This repository presents the source code of our approach and provides a demonstr
 git clone <link>
 ```
 
-2. `cd` to EBPM
+2. `cd` to ESPBM
 3. Create a new conda environment and install the dependencies:
 
 ```bash
-conda create -n ebpm python=3.10 -y
-conda activate ebpm
+conda create -n espbm python=3.10 -y
+conda activate espbm
 # conda install cudatoolkit -y
 pip install jupyter
 pip install -e .
