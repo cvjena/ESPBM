@@ -72,5 +72,5 @@ We would like to thank the following projects and their maintainers for their wo
 
 For any queries, requests, or problems, please reach out to
 
-- [Yuxuan Xie](yuxuan.xie@uni-jena.de)
-- [Tim Büchner](tim.buechner@uni-jena.de)
+- [Yuxuan Xie](mailto:yuxuan.xie@uni-jena.de)
+- [Tim Büchner](mailto:tim.buechner@uni-jena.de)
