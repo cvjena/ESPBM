@@ -52,7 +52,23 @@ We demonstrate the usage of our method in the following steps:
 ## Citation
 
 ```bibtex
-Upcoming
+@inproceedings{xie2024unsupervised,
+  title     = {Unsupervised Learning of Eye State Prototypes for Semantically Rich Blinking Detection},
+  author    = {Yuxuan Xie and Tim B{\"u}chner and Lukas Schuhmann and Orlando Guntinas-Lichius and Joachim Denzler},
+  booktitle = {Digital Health & Informatics Innovations for Sustainable Health Care Systems},
+  year      = {2024},
+  month     = august,
+  pages     = {1607--1611},
+  publisher = {IOS Press},
+  series    = {Studies in Health Technology and Informatics},
+  volume    = {316},
+  code      = {https://github.com/cvjena/ESPBM},
+  doi       = {10.3233/SHTI240731},
+  groups    = {facialpalsy},
+  langid    = {english},
+  url       = {https://ebooks.iospress.nl/doi/10.3233/SHTI240731},
+  note      = {}
+}
 ```
 
 ## License
