@@ -2,6 +2,14 @@
 
 ![Prototype Learning and Manual Definition](assets/prototypes.png)
 
+<p align="center">
+  <a href="https://inf-cv.uni-jena.de/home/research/learning3d/facial-paresis-analysis/">[Project Page]</a>
+  <a href="https://ebooks.iospress.nl/doi/10.3233/SHTI240731">[Publication]</a>
+  <a href="https://pub.inf-cv.uni-jena.de/pdf/xie2024unsupervised.pdf">[PDF]</a>
+  <a href="https://www.nature.com/articles/s41598-024-68707-x">[Nature Scientic Reports Work]</a>
+</p>
+
+
 This work presents a novel method for detecting eye blinking by establishing *eye state prototypes* to match blink patterns within the eye aspect ratio (EAR) time series.
 In contrast to traditional methods, which mainly focus on the binary ON/OFF of blinks, our method takes care of critical diagnostic details such as blink speed, duration, and inter-eye synchronicity.
 
