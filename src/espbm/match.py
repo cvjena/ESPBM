@@ -166,7 +166,7 @@ def interval_stats(
     apex_score = interval[apex_location]
     stats["apex_score"] = apex_score
     stats["heights"] = height
-    stats["prominance"] = apex_score - baseline
+    stats["prominance"] = baseline - apex_score
 
     stats["apex_location"] = apex_location
     # get the score at apex
