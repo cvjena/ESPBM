@@ -2,6 +2,14 @@
 
 ![Prototype Learning and Manual Definition](assets/prototypes.png)
 
+<p align="center">
+  <a href="https://inf-cv.uni-jena.de/home/research/learning3d/facial-paresis-analysis/">[Project Page]</a>
+  <a href="https://ebooks.iospress.nl/doi/10.3233/SHTI240731">[Publication]</a>
+  <a href="https://pub.inf-cv.uni-jena.de/pdf/xie2024unsupervised.pdf">[PDF]</a>
+  <a href="https://www.nature.com/articles/s41598-024-68707-x">[Nature Scientic Reports Work]</a>
+</p>
+
+
 This work presents a novel method for detecting eye blinking by establishing *eye state prototypes* to match blink patterns within the eye aspect ratio (EAR) time series.
 In contrast to traditional methods, which mainly focus on the binary ON/OFF of blinks, our method takes care of critical diagnostic details such as blink speed, duration, and inter-eye synchronicity.
 
@@ -52,7 +60,23 @@ We demonstrate the usage of our method in the following steps:
 ## Citation
 
 ```bibtex
-Upcoming
+@inproceedings{xie2024unsupervised,
+  title     = {Unsupervised Learning of Eye State Prototypes for Semantically Rich Blinking Detection},
+  author    = {Yuxuan Xie and Tim B{\"u}chner and Lukas Schuhmann and Orlando Guntinas-Lichius and Joachim Denzler},
+  booktitle = {Digital Health & Informatics Innovations for Sustainable Health Care Systems},
+  year      = {2024},
+  month     = august,
+  pages     = {1607--1611},
+  publisher = {IOS Press},
+  series    = {Studies in Health Technology and Informatics},
+  volume    = {316},
+  code      = {https://github.com/cvjena/ESPBM},
+  doi       = {10.3233/SHTI240731},
+  groups    = {facialpalsy},
+  langid    = {english},
+  url       = {https://ebooks.iospress.nl/doi/10.3233/SHTI240731},
+  note      = {}
+}
 ```
 
 ## License
@@ -72,5 +96,5 @@ We would like to thank the following projects and their maintainers for their wo
 
 For any queries, requests, or problems, please reach out to
 
-- [Yuxuan Xie](yuxuan.xie@uni-jena.de)
-- [Tim Büchner](tim.buechner@uni-jena.de)
+- [Yuxuan Xie](mailto:yuxuan.xie@uni-jena.de)
+- [Tim Büchner](mailto:tim.buechner@uni-jena.de)
