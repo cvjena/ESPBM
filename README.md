@@ -9,7 +9,6 @@
   <a href="https://www.nature.com/articles/s41598-024-68707-x">[Nature Scientic Reports Work]</a>
 </p>
 
-
 This work presents a novel method for detecting eye blinking by establishing *eye state prototypes* to match blink patterns within the eye aspect ratio (EAR) time series.
 In contrast to traditional methods, which mainly focus on the binary ON/OFF of blinks, our method takes care of critical diagnostic details such as blink speed, duration, and inter-eye synchronicity.
 
@@ -26,7 +25,7 @@ This repository presents the source code of our approach and provides a demonstr
 1. Clone the repository
 
 ```bash
-git clone <link>
+git clone git@github.com:cvjena/ESPBM.git
 ```
 
 2. `cd` to ESPBM
@@ -43,7 +42,7 @@ pip install -e .
 ## Via Pip
 
 ```bash
-Upcoming
+pip install espbm
 ```
 
 ## Usage
