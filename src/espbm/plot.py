@@ -133,7 +133,8 @@ def manual_prototype(
     prototype: np.ndarray,
     xmin: int | None = None,
     xmax: int | None = None,
-    params: tuple[float, float, float, float, int] | None = None,
+    window_size: int = 60,
+    params: tuple[float, float, float, float, float] | None = None,
 ) -> figure.Figure:
     """
     Plot the given prototype pattern.
@@ -154,37 +155,36 @@ def manual_prototype(
     ax.set_xlim([xmin, xmax])
     fig.suptitle("Manual Prototype Pattern", fontsize="20")
 
-    x_len = 100
     if params is None:
         return fig
 
     sig1, sig2, bs, prominance, apex_location = params
 
     # draw a point for onset and offset
-    apex_location = int(apex_location * x_len)
-    apex_x = apex_location
-    apex_y = prototype[apex_x]
-    onset_x = apex_location - int(sig1 * 3)
-    offset_x = apex_location + int(sig2 * 3)
+    apex_location = int(apex_location * window_size)
+    x_ap = apex_location
+    y_ap = prototype[x_ap]
+    x_on = apex_location - int(sig1 * 2.5)
+    x_of = apex_location + int(sig2 * 2.5)
 
-    ax.plot(onset_x, prototype[onset_x], "ro")
-    ax.plot(offset_x, prototype[offset_x], "ro")
-    ax.plot(apex_x, prototype[apex_x], "ro")
+    ax.plot(x_on, prototype[x_on], "ro")
+    ax.plot(x_of, prototype[x_of], "ro")
+    ax.plot(x_ap, prototype[x_ap], "ro")
 
     # write onset, apex, and offset
     # slight lower left of the point
-    ax.text(onset_x - 5, prototype[onset_x] - 0.02, "Onset", fontsize=12, color="r")
-    ax.text(offset_x, prototype[offset_x] - 0.02, "Offset", fontsize=12, color="r")
-    ax.text(apex_x, apex_y - 0.02, "Apex", fontsize=12, color="r")
+    ax.text(x_on - 5, prototype[x_on] - 0.02, "Onset", fontsize=12, color="r")
+    ax.text(x_of, prototype[x_of] - 0.02, "Offset", fontsize=12, color="r")
+    ax.text(x_ap, y_ap - 0.02, "Apex", fontsize=12, color="r")
 
     # write the text prominance to the vertical line
-    ax.text(apex_x - 3, apex_y + prominance / 3, "Prominance", fontsize=12, color="r", rotation=90)
+    ax.text(x_ap - 3, y_ap + prominance / 3, "Prominance", fontsize=12, color="r", rotation=90)
 
     # draw lines to describe the prototype
-    ax.vlines(x=apex_x, ymin=prototype[apex_location], ymax=bs, color="r", linestyle="--")
-    ax.hlines(y=bs, xmin=onset_x, xmax=offset_x, color="r", linestyle="--")
+    ax.vlines(x=x_ap, ymin=prototype[apex_location], ymax=bs, color="r", linestyle="--")
+    ax.hlines(y=bs, xmin=x_on, xmax=x_of, color="r", linestyle="--")
 
     # draw curly braces
-    curlyBrace(fig, ax, (onset_x, bs), (apex_x, bs), 0.03, bool_auto=True, c="r", str_text="3 * σ1")
-    curlyBrace(fig, ax, (apex_x, bs), (offset_x, bs), 0.03, bool_auto=True, c="r", str_text="3 * σ2")
+    curlyBrace(fig, ax, (x_on, bs), (x_ap, bs), 0.03, bool_auto=True, c="r", str_text="2.5 * σ1")
+    curlyBrace(fig, ax, (x_ap, bs), (x_of, bs), 0.03, bool_auto=True, c="r", str_text="2.5 * σ2")
     return fig

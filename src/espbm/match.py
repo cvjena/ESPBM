@@ -97,13 +97,15 @@ def index_matching(
 def optim(
     interval: np.ndarray,
     prototype_params: tuple[float, float, float, float, float],
-) -> tuple[np.ndarray, tuple[float, float, float, float, float]]:
+    window_size: int = 60,
+) -> tuple[np.ndarray, tuple[float, float, float, float, float]] | tuple[None, None]:
     """
     Optimize the blinking prototype parameters for a given interval.
 
     Parameters:
         interval (np.ndarray): The interval to optimize the prototype parameters for.
         prototype_params (tuple[float, float, float, float, float]): The prototype parameters.
+        window_size (int, optional): The size of the window. Defaults to 60.
 
     Returns:
         tuple[np.ndarray, tuple[float, float, float, float, float]]: The optimized prototype and its parameters.
@@ -119,7 +121,7 @@ def optim(
             float: The L1 norm (Manhattan distance) between the interval and the prototype.
         """
 
-        prototype = create_prototype(params)
+        prototype = create_prototype(params, window_size=window_size)
         return np.linalg.norm(interval - prototype, ord=1)
 
     with warnings.catch_warnings():
@@ -134,19 +136,19 @@ def optim(
             args=(interval,),
             method="Powell",
             bounds=[
-                (1.00, 20.0),  # sig1
-                (1.00, 20.0),  # sig2
-                (np.nanmin(interval), np.nanmax(interval)),  # baseline
+                (0.05, 15.0),  # sig1
+                (0.05, 15.0),  # sig2
+                (0.15, 0.50),  # baseline
                 (0.01, 0.75),  # prominance
-                (0.30, 0.50),  # apex_location
+                (0.05, 0.50),  # apex_location
             ],
-            options={"maxiter": 1000, "disp": False},
+            options={"maxiter": 100, "disp": False},
         )
     if not ret.success:
         return None, None
 
     optimized_params = ret.x
-    optimized_prototype = create_prototype(optimized_params)
+    optimized_prototype = create_prototype(optimized_params, window_size=window_size)
     return optimized_prototype, tuple(optimized_params)
 
 
@@ -170,23 +172,24 @@ def interval_stats(
 
     stats["apex_location"] = apex_location
     # get the score at apex
-    onset_x = int(apex_location - 2.5 * sig1)
-    offset_x = int(apex_location + 2.5 * sig2)
-    stats["onset_x"] = onset_x
-    stats["offset_x"] = offset_x
-    stats["width"] = offset_x - onset_x
+    x_on = int(apex_location - 2.5 * sig1)
+    x_of = int(apex_location + 2.5 * sig2)
+    stats["onset_x"] = x_on
+    stats["offset_x"] = x_of
+    stats["width"] = x_of - x_on
 
     # intersections points left and right
     # is the point between onset and apex where the prototype crosses the baseline
     # is the point between apex and offset where the prototype crosses the baseline
-    ips_left = (apex_location + onset_x) // 2
-    ips_right = (apex_location + offset_x) // 2
-    stats["ips_left"] = ips_left
-    stats["ips_right"] = ips_right
-    stats["internal_width"] = ips_right - ips_left
+    ips_l = (apex_location + x_on) // 2
+    ips_r = (apex_location + x_of) // 2
 
-    onset_y = interval[onset_x]
-    offset_y = interval[offset_x]
+    stats["ips_left"] = ips_l
+    stats["ips_right"] = ips_r
+    stats["internal_width"] = ips_r - ips_l
+
+    onset_y = interval[x_on]
+    offset_y = interval[x_of]
     stats["onset_y"] = onset_y
     stats["offset_y"] = offset_y
 

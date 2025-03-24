@@ -1,19 +1,19 @@
 __all__ = ["define_prototype", "create_prototype"]
 
 import numpy as np
-from scipy.signal import gaussian
+from scipy.signal.windows import gaussian
 
 
 def define_prototype(
-    sig1: float = 6.3,
-    sig2: float = 13.6,
+    sig1: float = 6.0,
+    sig2: float = 12.0,
     baseline: float = 0.3,
     prominance: float = 0.25,
-    apex_location: float = 0.4,
-    window_size: int = 100,
+    apex_location: float = 1 / 3,
+    window_size: int = 60,
     noise: bool = False,
     return_params: bool = False,
-) -> np.ndarray | tuple[np.ndarray, tuple[float, float, float, float, int]]:
+) -> np.ndarray | tuple[np.ndarray, tuple[float, float, float, float, float]]:
     """
     Define a manual prototype composed of two Gaussians.
 
@@ -29,36 +29,34 @@ def define_prototype(
         baseline (float): Baseline value of the prototype.
         prominance (float): Prominence of the Gaussians.
         apex_location (int | None): Location of the apex of the prototype. If None, it is set to 40% of the window size.
-        window_size (int): Size of the window.
+        window_size (int): Size of the window. Defaults to 60 (learned from the data, see JeFaPaTo project).
         noise (bool): Flag indicating whether to add noise to the prototype.
         return_params (bool): Flag indicating whether to return the prototype parameters.
 
     Returns:
         numpy.ndarray: The manual prototype.
     """
-    apex_location = apex_location or 0.4
-    apex_location = int(window_size * apex_location)
-    onset_x = apex_location - 2.5 * sig1
-    offset_x = apex_location + 2.5 * sig2
+    apex_idx = int(window_size * apex_location)
+    x_on = apex_idx - 2.5 * sig1
+    x_of = apex_idx + 2.5 * sig2
 
-    if onset_x < 0 or offset_x > window_size:
+    if x_on < 0 or x_of > window_size:
         raise ValueError("Onset and offset are not inside the window. Choose different parameters.")
 
-    # TODO replace with scipy.stats.norm.pdf
-    y1 = -prominance * gaussian(window_size * 2, std=sig1) + baseline
-    y2 = -prominance * gaussian(window_size * 2, std=sig2) + baseline
-    y = np.append(y1[:window_size], y2[window_size:])
-    if noise:
-        y = y + _noise_fct(0.02, window_size)
+    y1 = -prominance * gaussian(M=window_size * 2, std=sig1) + baseline
+    y2 = -prominance * gaussian(M=window_size * 2, std=sig2) + baseline
 
-    y = y[window_size - apex_location : 2 * window_size - apex_location]
+    y = np.append(y1[int(window_size * (1 - apex_location)) : window_size], y2[window_size : window_size + int(window_size * (1 - apex_location))])
+    if noise:
+        y = y + _noise_fct(0.02, len(y))
+
     if return_params:
-        return y, (sig1, sig2, baseline, prominance, apex_location / window_size)
+        return y, (sig1, sig2, baseline, prominance, apex_location)
 
     return y
 
 
-def create_prototype(x: tuple | np.ndarray) -> np.ndarray:
+def create_prototype(x: tuple | np.ndarray, window_size: int = 60) -> np.ndarray:
     """
     Define a manual prototype composed of two Gaussians.
 
@@ -70,22 +68,21 @@ def create_prototype(x: tuple | np.ndarray) -> np.ndarray:
     each extracted interval.
 
     Parameters:
-        sig1 (float): Standard deviation of the first Gaussian.
-        sig2 (float): Standard deviation of the second Gaussian.
-        baseline (float): Baseline value of the prototype.
-        prominance (float): Prominence of the Gaussians.
-        apex_location (float): Location of the apex of the prototype. If None, it is set to 40% of the window size.
+        x (tuple | np.ndarray): The 5 parameters of the prototype.
+            sig1 (float): Standard deviation of the first Gaussian.
+            sig2 (float): Standard deviation of the second Gaussian.
+            baseline (float): Baseline value of the prototype.
+            prominance (float): Prominence of the Gaussians.
+            apex_location (float): Location of the apex of the prototype. If None, it is set to 40% of the window size.
+        window_size (int): Size of the window. Defaults to 60 (learned from the data, see JeFaPaTo project).
 
     Returns:
         numpy.ndarray: The manual prototype.
     """
-    WINDOW_SIZE = 100
     sig1, sig2, baseline, prominance, apex_location = x
-    apex_location = int(apex_location * WINDOW_SIZE)
-    y1 = -prominance * gaussian(WINDOW_SIZE * 2, std=sig1) + baseline
-    y2 = -prominance * gaussian(WINDOW_SIZE * 2, std=sig2) + baseline
-    y = np.append(y1[:WINDOW_SIZE], y2[WINDOW_SIZE:])
-    y = y[WINDOW_SIZE - apex_location : 2 * WINDOW_SIZE - apex_location]
+    y1 = -prominance * gaussian(window_size * 2, std=sig1) + baseline
+    y2 = -prominance * gaussian(window_size * 2, std=sig2) + baseline
+    y = np.append(y1[int(window_size * (1 - apex_location)) : window_size], y2[window_size : window_size + int(window_size * (1 - apex_location))])
     return y
 
 
@@ -93,4 +90,4 @@ def _noise_fct(noise_std: float, window_size=10) -> np.ndarray:
     "Random noise based on learned data."
     # create custom random generator to not interfere with other random calls!
     rand_generator = np.random.RandomState(0)
-    return (rand_generator.random(2 * window_size) * 2 - 1) * noise_std
+    return (rand_generator.random(window_size) * 2 - 1) * noise_std
