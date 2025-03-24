@@ -188,9 +188,4 @@ def interval_stats(
     stats["ips_right"] = ips_r
     stats["internal_width"] = ips_r - ips_l
 
-    onset_y = interval[x_on]
-    offset_y = interval[x_of]
-    stats["onset_y"] = onset_y
-    stats["offset_y"] = offset_y
-
     return stats
